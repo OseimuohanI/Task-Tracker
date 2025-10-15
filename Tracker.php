@@ -21,7 +21,9 @@
     }
 
     function arraycount($array){
-        if (array_keys($array) >= 0){
+        if ($array == []){
+            array_keys($array) == 0;
+        } else if (array_keys($array) >= 0){
             
         }
     }
