@@ -59,7 +59,10 @@
             if ($input1 == "y" || $input1 == "n" || $input1 == "N" || $input1 == "Y"){
                 if ($input1 == "y" || $input1 == "Y"){
                     echo printArray($tasks);
-                    
+                    $choice = readline("Which Task would you like to change status for? ");
+                    if (isset($choice)){
+                        $choice -= 1;
+                    }
                 } else if ($input1 == "n" || $input1 == "N"){
                     echo "Thank you for your Time";
                 }
