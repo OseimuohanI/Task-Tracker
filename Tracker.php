@@ -13,7 +13,7 @@
         if (isset($New_Task)){
             // array_push($tasks, $New_Task);
             $tasks[count($tasks) + 1] = $New_Task;
-            $progress[count($progress) + 1] = 0;
+            $progress[count($progress) + 1] = 1;
             return printArray();
         }
         // $decision = readline("")
@@ -42,32 +42,32 @@
                 
             }
             foreach ($progress as $progres) {
-                
+                // (int)$progres;
             }
-            return $task . determineProgress($progres);
+            return $task . determineProgress((int) $progres);
         }
         
     }
 
-    
-   
-    if (!isset($tasks) || $tasks == []){
-        echo AddTask();
-    }else if (isset($tasks) && count($tasks) >= 1){
-        $input1 = readline("Would you like to review your tasks? y/n ");
-        if (isset($input1)){
-            if ($input1 == "y" || $input1 == "n" || $input1 == "N" || $input1 == "Y"){
-                if ($input1 == "y" || $input1 == "Y"){
-                    echo printArray($tasks);
-                    
-                } else if ($input1 == "n" || $input1 == "N"){
-                    echo "Thank you for your Time";
+    if (isset($tasks)){
+        if ($tasks == []){
+            echo AddTask();
+        }else if (count($tasks) >= 1){
+            $input1 = readline("Would you like to review your tasks? y/n ");
+            if (isset($input1)){
+                if ($input1 == "y" || $input1 == "n" || $input1 == "N" || $input1 == "Y"){
+                    if ($input1 == "y" || $input1 == "Y"){
+                        echo printArray($tasks);
+                        
+                    } else if ($input1 == "n" || $input1 == "N"){
+                        echo "Thank you for your Time";
+                    }
+                } else{
+                    echo "Retry";
                 }
-            } else{
+            } else {
                 echo "Retry";
             }
-        } else {
-            echo "Retry";
         }
     }
 ?>
