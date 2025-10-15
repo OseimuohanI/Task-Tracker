@@ -13,11 +13,17 @@
         if (isset($New_Task)){
             // array_push($tasks, $New_Task);
             $tasks[count($tasks) + 1] = $New_Task;
-            $progress[count($progress) + 1] = 1;
+            $progress[count($progress) + 1] = 0;
             return printArray();
         }
         // $decision = readline("")
 
+    }
+
+    function arraycount($array){
+        if (array_keys($array) >= 0){
+            
+        }
     }
 
     function determineProgress($x){
