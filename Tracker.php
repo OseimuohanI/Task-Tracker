@@ -20,6 +20,14 @@
 
     }
 
+    function arraycount($array){
+        if ($array == []){
+            array_keys($array) == 0;
+        } else if (array_keys($array) >= 0){
+            
+        }
+    }
+
     function determineProgress($x){
         global $progress;
         if ($progress[$x] == 0){
@@ -42,35 +50,35 @@
                 
             }
             foreach ($progress as $progres) {
-                
+                // (int)$progres;
             }
-            return $task . determineProgress($progres);
+            return $task . determineProgress((int) $progres);
         }
         
     }
 
-    
-   
-    if (!isset($tasks) || $tasks == []){
-        echo AddTask();
-    }else if (isset($tasks) && count($tasks) >= 1){
-        $input1 = readline("Would you like to review your tasks? y/n ");
-        if (isset($input1)){
-            if ($input1 == "y" || $input1 == "n" || $input1 == "N" || $input1 == "Y"){
-                if ($input1 == "y" || $input1 == "Y"){
-                    echo printArray($tasks);
-                    $choice = readline("Which Task would you like to change status for? ");
-                    if (isset($choice)){
-                        $choice -= 1;
+    if (isset($tasks)){
+        if ($tasks == []){
+            echo AddTask();
+        }else if (count($tasks) >= 1){
+            $input1 = readline("Would you like to review your tasks? y/n ");
+            if (isset($input1)){
+                if ($input1 == "y" || $input1 == "n" || $input1 == "N" || $input1 == "Y"){
+                    if ($input1 == "y" || $input1 == "Y"){
+                        echo printArray($tasks);
+                        $choice = readline("Which Task would you like to change status for? ");
+                            if (isset($choice)){
+                                $choice -= 1;
+                            }
+                    } else if ($input1 == "n" || $input1 == "N"){
+                        echo "Thank you for your Time";
                     }
-                } else if ($input1 == "n" || $input1 == "N"){
-                    echo "Thank you for your Time";
+                } else{
+                    echo "Retry";
                 }
-            } else{
+            } else {
                 echo "Retry";
             }
-        } else {
-            echo "Retry";
         }
     }
 ?>
