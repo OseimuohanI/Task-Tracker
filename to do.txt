@@ -6,3 +6,6 @@ return $count;
 $count = count(array)
 
 global $count
+
+
+json.encode
