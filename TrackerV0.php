@@ -12,8 +12,10 @@
         $New_Task = readline("Enter a new Task: ");
         if (isset($New_Task)){
             // array_push($tasks, $New_Task);
-            $tasks[count($tasks) + 1] = $New_Task;
-            $progress[count($progress) + 1] = 0;
+            // $tasks[count($tasks) + 1] = $New_Task;
+            $tasks[arraycount($tasks)] = $New_Task;
+            // $progress[count($progress) + 1] = 0;
+            $progress[arraycount($progress)] = 1;
             return printArray();
         }
         // $decision = readline("")
@@ -22,9 +24,9 @@
 
     function arraycount($array){
         if ($array == []){
-            array_keys($array) == 0;
+            return 0;
         } else if (array_keys($array) >= 0){
-            
+            return (int) array_keys($array) + 1;
         }
     }
 
