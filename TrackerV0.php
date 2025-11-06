@@ -12,10 +12,15 @@
         if (isset($New_Task) && $New_Task != ""){
             array_push($tasks, $New_Task);
             array_push($progress, $increment);
-            return printArray();
+            if (determineProgress() == "Error"){
+                return "Error... Try Again";
+            } else{
+                return "Task Saved Successfully... " . printArray();
+            }
         } else {return "Try Again";}
     }
 
+    //arraycount() no longer needed
     function arraycount($array){
         global $increment;
         if ($array == []){
@@ -26,7 +31,7 @@
         }
     }
 
-    function determineProgress($x){
+    function determineProgress(){
         global $tasks;
         global $progress;
         if (count($tasks) == count($progress)){
@@ -35,7 +40,7 @@
                     return " In progress";
                 } else if ($progress[$key] == 1){
                     return " Task Completed";
-                } else {return "error";}
+                } else {return "Error";}
             }
         }
     }
@@ -44,7 +49,7 @@
         global $tasks;
         global $progress;
         if (count($tasks) == count($progress)) {
-            foreach ($tasks as $task) {return $task . determineProgress(arraycount($progress));}
+            foreach ($tasks as $task) {return "Task " . $task . " " . determineProgress();}
         }
     }
 

@@ -1,11 +1,4 @@
-just return 0 if array == []
-if (count(array) >= 1){
-return $count;
-}  ||DONE
 
-$count = count(array)
-
-global $count
 
 
 json.encode
