@@ -1,28 +1,19 @@
 <?php
 
-    $increment = 1;
+    $increment = 0;
     $tasks = [];
     $progress = [];
        
     function AddTask(){
         global $tasks;
         global $progress;
-        global $progres;
         global $increment;
         $New_Task = readline("Enter a new Task: ");
         if (isset($New_Task) && $New_Task != ""){
-            // return var_dump($New_Task) . var_dump($progres);
             array_push($tasks, $New_Task);
-            // $increment += 1;
             array_push($progress, $increment);
-            // $tasks[count($tasks) + 1] = $New_Task;
-            // $tasks[arraycount($tasks)] = $New_Task;
-            // $progress[count($progress) + 1] = 0;
-            // $progress[arraycount($progress)] = 1;
-            return printArray() . var_dump($progres);
+            return printArray();
         } else {return "Try Again";}
-        // $decision = readline("")
-
     }
 
     function arraycount($array){
@@ -39,8 +30,7 @@
         global $tasks;
         global $progress;
         if (count($tasks) == count($progress)){
-            // return $x;
-            foreach ($progress as $key => $progres){
+            foreach ($progress as $key => $value){
                 if ($progress[$key] == 0){
                     return " In progress";
                 } else if ($progress[$key] == 1){
@@ -53,22 +43,9 @@
     function printArray(){
         global $tasks;
         global $progress;
-        // global $determineProgress;
-        // foreach ($tasks as $task => $tasko) {
-        //     return $task . " and " . $tasko;
-        // }
-
         if (count($tasks) == count($progress)) {
-            foreach ($tasks as $task) {
-                
-            }
-            foreach ($progress as $progres) {
-                // (int)$progres;
-            }
-            return $task . determineProgress(arraycount($progress));
-            // return arraycount($tasks) . ' ArrayCount For ';
+            foreach ($tasks as $task) {return $task . determineProgress(arraycount($progress));}
         }
-        
     }
 
     if (isset($tasks)){
