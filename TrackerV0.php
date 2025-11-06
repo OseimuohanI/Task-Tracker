@@ -1,41 +1,52 @@
 <?php
 
-    $tasks = [
-        // "Him" => "Him"
-    ];
-
+    $increment = 1;
+    $tasks = [];
     $progress = [];
        
     function AddTask(){
         global $tasks;
         global $progress;
+        global $progres;
+        global $increment;
         $New_Task = readline("Enter a new Task: ");
-        if (isset($New_Task)){
-            // array_push($tasks, $New_Task);
+        if (isset($New_Task) && $New_Task != ""){
+            // return var_dump($New_Task) . var_dump($progres);
+            array_push($tasks, $New_Task);
+            // $increment += 1;
+            array_push($progress, $increment);
             // $tasks[count($tasks) + 1] = $New_Task;
-            $tasks[arraycount($tasks)] = $New_Task;
+            // $tasks[arraycount($tasks)] = $New_Task;
             // $progress[count($progress) + 1] = 0;
-            $progress[arraycount($progress)] = 1;
-            return printArray();
-        }
+            // $progress[arraycount($progress)] = 1;
+            return printArray() . var_dump($progres);
+        } else {return "Try Again";}
         // $decision = readline("")
 
     }
 
     function arraycount($array){
+        global $increment;
         if ($array == []){
             return 0;
-        } else if (array_keys($array) >= 0){
-            return (int) array_keys($array) + 1;
+        } else if (count(array_keys($array)) >= 1){
+            $increment += 1;
+            return $increment;
         }
     }
 
     function determineProgress($x){
+        global $tasks;
         global $progress;
-        if ($progress[$x] == 0){
-            return " In progress";
-        } else if ($progress[$x] == 1){
-            return " Task Completed";
+        if (count($tasks) == count($progress)){
+            // return $x;
+            foreach ($progress as $key => $progres){
+                if ($progress[$key] == 0){
+                    return " In progress";
+                } else if ($progress[$key] == 1){
+                    return " Task Completed";
+                } else {return "error";}
+            }
         }
     }
     
@@ -54,7 +65,8 @@
             foreach ($progress as $progres) {
                 // (int)$progres;
             }
-            return $task . determineProgress((int) $progres);
+            return $task . determineProgress(arraycount($progress));
+            // return arraycount($tasks) . ' ArrayCount For ';
         }
         
     }
