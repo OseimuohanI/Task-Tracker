@@ -51,7 +51,7 @@
         $ech = $task->NewTask($descri, $statu);
         $dat = urlencode("Successfully Done");
         sleep(4);
-        header('location: input.php' . "?e=" . $dat);
+        header("location: input.php?e=" . $dat);
         exit();
     }
 ?>

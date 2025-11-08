@@ -28,8 +28,9 @@
     <?php
 
     include_once 'logic.php';
-    if (isset($_GET['$e']) && !empty($_GET['$e'])){
-        echo $_GET['$e'];
+    if (isset($_GET['e']) && !empty($_GET['e'])){
+        $e = urldecode($_GET['e']);
+        echo $e;
     }
         
 
