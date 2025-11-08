@@ -1,10 +1,8 @@
 <?php
 
     $e = "";
-    include 'logic.php';
-    include 'db_conn.php';
+    // include 'logic.php';
 
-    
 ?>
 
 <!DOCTYPE html>
@@ -16,11 +14,10 @@
 </head>
 <body>
     <form action="logic.php" method="POST" novalidate autocomplete="off">
-        <label for="Description">Description: </label>
+        <label for="description">Description: </label>
         <input type="text" name="description" id="">
         <label for="Status">Status: </label>
-        <select name="status" id="">
-            <option value="">NILL</option>
+        <select name="status" id="" title="Status">
             <option value="to-do">To_Do</option>
             <option value="in-progress">In-Progress</option>
             <option value="done">Done</option>
@@ -30,7 +27,10 @@
     <br>
     <?php
 
-    
+    include_once 'logic.php';
+    if (isset($_GET['$e']) && !empty($_GET['$e'])){
+        echo $_GET['$e'];
+    }
         
 
     ?>

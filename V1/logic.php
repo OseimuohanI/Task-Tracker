@@ -43,7 +43,15 @@
         }
     }
 
-    $descri = $_POST['description'];
-    $statu = $_POST['status'];
-    $task = new Tasks($descri, $statu);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $descri = $_POST['description'];
+        $statu = $_POST['status'];
+        $task = new Tasks($descri, $statu);
+        
+        $ech = $task->NewTask($descri, $statu);
+        $dat = urlencode("Successfully Done");
+        sleep(4);
+        header('location: input.php' . "?e=" . $dat);
+        exit();
+    }
 ?>
