@@ -1,4 +1,7 @@
 <?php
+
+    require_once '/xampp/htdocs/Task-Tracker/V1/db_conn.php';
+
     class Tasks{
         protected $id;
         //description
@@ -17,9 +20,13 @@
             $this->updatedAt = $updatedAt;
         }
 
-        public function NewTask()
+        public function NewTask($id, $des, $stat, $createdAt, $updatedAt)
         {
-            
+            $this;
         }
     }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        $e = "In Progress...";
+    } /*else{$e = "<br> Your Connection isn't Secure";}*/else if ($_SERVER['REQUEST_METHOD'] == 'GET') {header("location:". $_SERVER['PHP_SELF']. "?e" . $e); $e = "Your Connection isn't Secure";}
 ?>
