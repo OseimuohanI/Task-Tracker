@@ -49,9 +49,9 @@
         $task = new Tasks($descri, $statu);
         
         $ech = $task->NewTask($descri, $statu);
-        $dat = urlencode("Successfully Done");
+        $data = urlencode("$ech" . " " . $task->des);
         sleep(4);
-        header("location: input.php?e=" . $dat);
+        header("location: input.php?e=" . $data);
         exit();
     }
 ?>
