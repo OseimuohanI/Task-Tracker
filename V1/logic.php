@@ -1,6 +1,5 @@
 <?php
-
-    require_once '/xampp/htdocs/Task-Tracker/V1/db_conn.php';
+    include_once 'db_conn.php';
 
     class Tasks{
         protected $id;
@@ -8,25 +7,43 @@
         public $des;
         //status
         public $stat;
-        public $createdAt;
+        protected $createdAt;
         public $updatedAt;
+        private $conn;
 
-        public function __construct($id, $des, $stat, $createdAt, $updatedAt)
+        public function __construct($des, $stat)
         {
-            $this->id = $id;
+            global $conn;
+            $this->conn = $conn;
             $this->des = $des;
             $this->stat = $stat;
-            $this->createdAt = $createdAt;
-            $this->updatedAt = $updatedAt;
         }
 
-        public function NewTask($id, $des, $stat, $createdAt, $updatedAt)
+        public function NewTask($des, $stat)
         {
-            $this;
+            $date = new DateTime();
+            $formatted_date = $date->format('Y-m-d H:i:s');
+            $this->stat = $stat;
+            $this->des = $des;
+            $this->createdAt = $formatted_date;
+            $this->updatedAt = $formatted_date;
+
+            $sql = "INSERT INTO tasks (description, status, createdAt, updatedAt) VALUES (?,?,?,?)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("ssss", $this->des, $this->stat, $this->createdAt, $this->updatedAt);
+            
+            $result = $stmt->execute();
+            $stmt->close();
+            
+            if ($result === TRUE) {
+                return "New task successfully added";
+            } else {
+                return "Error: " . $this->conn->error;
+            }
         }
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-        $e = "In Progress...";
-    } /*else{$e = "<br> Your Connection isn't Secure";}*/else if ($_SERVER['REQUEST_METHOD'] == 'GET') {header("location:". $_SERVER['PHP_SELF']. "?e" . $e); $e = "Your Connection isn't Secure";}
+    $descri = $_POST['description'];
+    $statu = $_POST['status'];
+    $task = new Tasks($descri, $statu);
 ?>
