@@ -61,7 +61,7 @@
             if ($current['status'] === $stat && 
                 $current['priority'] === $priority && 
                 $current['category'] === $category) {
-                return true;
+                return 'unchanged';
             }
             
             $this->id = $id;
@@ -77,7 +77,7 @@
             $result = $stmt->execute();
             $stmt->close();
 
-            return $result;
+            return $result ? 'updated' : 'error';
         }
     }
 
@@ -85,7 +85,8 @@
         $action = $_POST['action'] ?? '';
         
         if ($action === 'add_task') {
-            $descri = $_POST['description'];
+            $descri = $_POST['description'] ?? "";
+            if ($descri == ""){header("location: input.php?e=" . urlencode("Task Cannot be empty")); exit();}
             $statu = $_POST['status'];
             $prio = $_POST['priority'];
             $cat = $_POST['category'];
@@ -101,19 +102,27 @@
             $priorities = $_POST['priority'] ?? [];
             $categories = $_POST['category'] ?? [];
             
-            $successCount = 0;
+            $updatedCount = 0;
+            $unchangedCount = 0;
             $errorCount = 0;
             
             for ($i = 0; $i < count($task_ids); $i++) {
                 $task = new Tasks('', '', '', '');
-                if ($task->UpdateTask($task_ids[$i], $statuses[$i], $priorities[$i], $categories[$i])) {
-                    $successCount++;
+                $result = $task->UpdateTask($task_ids[$i], $statuses[$i], $priorities[$i], $categories[$i]);
+                
+                if ($result === 'updated') {
+                    $updatedCount++;
+                } elseif ($result === 'unchanged') {
+                    $unchangedCount++;
                 } else {
                     $errorCount++;
                 }
             }
             
-            $message = "$successCount task(s) processed";
+            $message = "$updatedCount task(s) updated";
+            if ($unchangedCount > 0) {
+                $message .= ", $unchangedCount unchanged";
+            }
             if ($errorCount > 0) {
                 $message .= ", $errorCount error(s) occurred";
             }

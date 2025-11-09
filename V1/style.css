@@ -1,0 +1,277 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+    --trans-fast: 0.25s;
+    --trans-med: 0.4s;
+    --easing: ease;
+}
+
+body.light-mode,
+body.dark-mode {
+    font-family: 'Roboto', sans-serif;
+    transition: background-color var(--trans-med) var(--easing), color var(--trans-med) var(--easing);
+}
+
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+    --nav-bg: rgba(255, 255, 255, 0.7);
+}
+
+body.dark-mode {
+    background-color: #333333;
+    color: #ffffff;
+    --nav-bg: rgba(51, 51, 51, 0.7);
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    padding: 10px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    transition: background-color var(--trans-med) var(--easing), backdrop-filter var(--trans-fast) var(--easing);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+body.light-mode nav {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+body.dark-mode nav {
+    background-color: rgba(51, 51, 51, 0.7);
+}
+
+nav form {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 50px;
+    font-family: 'Open Sans', sans-serif;
+    transition: color var(--trans-med) var(--easing);
+}
+
+nav form input[type="text"],
+nav form select,
+nav form button,
+table select,
+.button-container button {
+    transition: background-color var(--trans-med) var(--easing),
+                color var(--trans-med) var(--easing),
+                box-shadow var(--trans-fast) var(--easing);
+}
+
+nav form input[type="text"] {
+    padding: 5px;
+    border: none;
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    border-radius: 3px;
+    font-family: 'Open Sans', sans-serif;
+    margin-right: 20px;
+}
+
+body.light-mode nav form input[type="text"] {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode nav form input[type="text"] {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Open Sans', sans-serif;
+    overflow: hidden;
+    transition: width var(--trans-med) var(--easing);
+    border: 1px solid #d3d3d3;
+    border-radius: 3px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #9c0d0d;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color var(--trans-med) var(--easing), background-color var(--trans-med) var(--easing);
+}
+
+button {
+    padding: 10px 15px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+nav form button {
+    margin-left: 20px;
+    background: transparent;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    cursor: pointer;
+    color: inherit;
+    border-radius: 3px;
+}
+
+nav form select {
+    margin-left: 2px;
+    margin-right: 23px;
+    text-align: center;
+    background-color: inherit;
+    color: inherit;
+    border: none;
+    padding: 5px;
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    border-radius: 3px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+nav form {
+    width: 100%;
+    justify-content: center;
+}
+
+body.light-mode nav form select {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode nav form select {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+nav form select option {
+    text-align: center;
+    border: none;
+}
+
+body.light-mode nav form select option {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode nav form select option {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+#toggle-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: inherit;
+    transition: color var(--trans-med) var(--easing);
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-container button {
+    width: 45%;
+    background: transparent;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    color: inherit;
+    border-radius: 3px;
+}
+
+table select {
+    text-align: center;
+    background-color: inherit;
+    color: inherit;
+    border: none;
+    padding: 5px;
+    width: 100%;
+    outline: none;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body.light-mode table select {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode table select {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+table select option {
+    text-align: center;
+    border: none;
+}
+
+body.light-mode table select option {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode table select option {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+nav::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -18px;
+    height: 18px;
+    background: linear-gradient(to bottom, var(--nav-bg) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 100;
+}
+
+.flash {
+    margin: 12px auto 16px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: background-color var(--trans-med) var(--easing), color var(--trans-med) var(--easing), border-color var(--trans-med) var(--easing);
+    max-width: 900px;
+}
+
+body.light-mode .flash {
+    background-color: #f4f7ff;
+    color: #0b2e6f;
+    border: 1px solid #d3d3d3;
+}
+
+body.dark-mode .flash {
+    background-color: rgba(255,255,255,0.08);
+    color: #e6e9f2;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+@media (max-width: 600px) {
+    table th:nth-child(6),
+    table td:nth-child(6),
+    table th:nth-child(7),
+    table td:nth-child(7) {
+        opacity: 0;
+        width: 0;
+        padding: 0;
+        border: 0;
+        font-size: 0;
+        pointer-events: none;
+        transition: all var(--trans-med) var(--easing);
+    }
+}

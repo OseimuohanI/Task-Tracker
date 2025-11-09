@@ -1,7 +1,6 @@
 <?php
 
     $e = "";
-    // include 'logic.php';
 
 ?>
 
@@ -11,32 +10,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do | V1</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        function toggleMode() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            body.classList.toggle('light-mode');
+            const icon = document.getElementById('mode-icon');
+            icon.classList.toggle('fa-sun');
+            icon.classList.toggle('fa-moon');
+            localStorage.setItem('mode', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        window.onload = function() {
+            const mode = localStorage.getItem('mode');
+            const icon = document.getElementById('mode-icon');
+            if (mode === 'dark') {
+                document.body.classList.add('dark-mode');
+                icon.classList.add('fa-sun');
+            } else {
+                document.body.classList.add('light-mode');
+                icon.classList.add('fa-moon');
+            }
+        }
+    </script>
 </head>
 <body>
-    <form action="logic.php" method="POST" novalidate autocomplete="off">
-        <input type="hidden" name="action" value="add_task">
-        <label for="description">Task: </label>
-        <input type="text" name="description" id="">
-        <label for="priority">Priority: </label>
-        <select name="priority" id="">
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-        </select>
-        <label for="Status">Status: </label>
-        <select name="status" id="" title="Status">
-            <option value="to-do">To_Do</option>
-            <option value="in-progress">In-Progress</option>
-            <option value="done">Done</option>
-        </select>
-        <label for="category">Category: </label>
-        <select name="category" id="">
-            <option value="work">Work</option>
-            <option value="personal">Personal</option>
-            <option value="other">Other</option>
-        </select>
-        <button type="submit">Add Task</button>
-    </form>
+    <nav>
+        <button id="toggle-button" onclick="toggleMode()">
+            <i id="mode-icon" class="fas"></i>
+        </button>
+        <form action="logic.php" method="POST" novalidate autocomplete="off">
+            <input type="hidden" name="action" value="add_task">
+            <label for="description">Task: </label>
+            <input type="text" name="description" id="">
+            <label for="priority">Priority: </label>
+            <select name="priority" id="">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <label for="Status">Status: </label>
+            <select name="status" id="" title="Status">
+                <option value="to-do">To_Do</option>
+                <option value="in-progress">In-Progress</option>
+                <option value="done">Done</option>
+            </select>
+            <label for="category">Category: </label>
+            <select name="category" id="">
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="other">Other</option>
+            </select>
+            <button type="submit">Add Task</button>
+        </form>
+    </nav>
     <br>
 
     <?php
@@ -44,11 +73,11 @@
     include_once 'logic.php';
     if (isset($_GET['e']) && !empty($_GET['e'])){
         $e = urldecode($_GET['e']);
-        echo $e;
+        echo "<div class='flash'>".htmlspecialchars($e, ENT_QUOTES, 'UTF-8')."</div>";
     }
    
-echo "<form action='logic.php' method='POST'>";
-echo "<input type='hidden' name='action' value='update_tasks'>";
+    echo "<form action='logic.php' method='POST'>";
+    echo "<input type='hidden' name='action' value='update_tasks'>";
     include_once 'db_conn.php';
     
     $sql = "SELECT * FROM tasks";
@@ -86,9 +115,8 @@ echo "<input type='hidden' name='action' value='update_tasks'>";
     
     $conn->close();
 
-echo "<button type='submit'>Save</button>";
-echo "</form>";
+    echo "<div class='button-container'><button type='submit'>Save</button></div>";
+    echo "</form>";
     ?>
-    <!-- <a href="ChangeStatus.php">Edit</a> -->
 </body>
 </html>
