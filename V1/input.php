@@ -57,7 +57,9 @@ echo "<input type='hidden' name='action' value='update_tasks'>";
     if ($result->num_rows > 0) {
         echo "<table border='1'><tr><th>ID</th><th>Description</th><th>Priority</th><th>Status</th><th>Category</th><th>Created At</th><th>Updated At</th></tr>";
         while($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $row["id"] . "</td><td>" . $row["description"] . "</td><td>
+            echo "<tr>";
+            echo "<input type='hidden' name='task_id[]' value='" . $row["id"] . "'>";
+            echo "<td>" . $row["id"] . "</td><td>" . $row["description"] . "</td><td>
             <select name='priority[]' title='Priority'>
             <option value='low'" . ($row["priority"] == 'low' ? ' selected' : '') . ">Low</option>
             <option value='medium'" . ($row["priority"] == 'medium' ? ' selected' : '') . ">Medium</option>
@@ -87,6 +89,6 @@ echo "<input type='hidden' name='action' value='update_tasks'>";
 echo "<button type='submit'>Save</button>";
 echo "</form>";
     ?>
-    <a href="ChangeStatus.php">Edit</a>
+    <!-- <a href="ChangeStatus.php">Edit</a> -->
 </body>
 </html>

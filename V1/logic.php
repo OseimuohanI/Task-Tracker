@@ -48,23 +48,25 @@
             }
         }
 
-        public function ChangeStatus()
+        public function UpdateTask($id, $stat, $priority, $category)
         {
-            $this->id = mysqli_insert_id($this->conn);
-            if (isset($this->id)){
-                $this->updatedAt = (new DateTime())->format('Y-m-d H:i:s');
-                $sql = "UPDATE tasks SET status = ?, updatedAt = ? WHERE id = ?";
-                $stmt = $this->conn->prepare($sql);
-                $stmt->bind_param("ssi", $this->stat, $this->updatedAt, $this->id);
+            $this->id = $id;
+            $this->stat = $stat;
+            $this->priority = $priority;
+            $this->category = $category;
+            $this->updatedAt = (new DateTime())->format('Y-m-d H:i:s');
+            
+            $sql = "UPDATE tasks SET status = ?, priority = ?, category = ?, updatedAt = ? WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("ssssi", $this->stat, $this->priority, $this->category, $this->updatedAt, $this->id);
 
-                $result = $stmt->execute();
-                $stmt->close();
+            $result = $stmt->execute();
+            $stmt->close();
 
-                if ($result === TRUE) {
-                    return "Task status updated successfully";
-                } else {
-                    return "Error updating status: " . $this->conn->error;
-                }
+            if ($result === TRUE) {
+                return true;
+            } else {
+                return false;
             }
         }
     }
@@ -84,9 +86,29 @@
             header("location: input.php?e=" . $data);
             exit();
         } elseif ($action === 'update_tasks') {
-            // Handle task updates
-            // Process the arrays
-            header("location: input.php?e=" . urlencode("Tasks updated"));
+            $task_ids = $_POST['task_id'] ?? [];
+            $statuses = $_POST['status'] ?? [];
+            $priorities = $_POST['priority'] ?? [];
+            $categories = $_POST['category'] ?? [];
+            
+            $successCount = 0;
+            $errorCount = 0;
+            
+            for ($i = 0; $i < count($task_ids); $i++) {
+                $task = new Tasks('', '', '', '');
+                if ($task->UpdateTask($task_ids[$i], $statuses[$i], $priorities[$i], $categories[$i])) {
+                    $successCount++;
+                } else {
+                    $errorCount++;
+                }
+            }
+            
+            $message = "$successCount task(s) updated successfully";
+            if ($errorCount > 0) {
+                $message .= ", $errorCount error(s) occurred";
+            }
+            
+            header("location: input.php?e=" . urlencode($message));
             exit();
         }
     }
