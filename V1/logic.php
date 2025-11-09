@@ -50,6 +50,20 @@
 
         public function UpdateTask($id, $stat, $priority, $category)
         {
+            $sql = "SELECT status, priority, category FROM tasks WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $current = $result->fetch_assoc();
+            $stmt->close();
+            
+            if ($current['status'] === $stat && 
+                $current['priority'] === $priority && 
+                $current['category'] === $category) {
+                return true;
+            }
+            
             $this->id = $id;
             $this->stat = $stat;
             $this->priority = $priority;
@@ -63,11 +77,7 @@
             $result = $stmt->execute();
             $stmt->close();
 
-            if ($result === TRUE) {
-                return true;
-            } else {
-                return false;
-            }
+            return $result;
         }
     }
 
@@ -103,7 +113,7 @@
                 }
             }
             
-            $message = "$successCount task(s) updated successfully";
+            $message = "$successCount task(s) processed";
             if ($errorCount > 0) {
                 $message .= ", $errorCount error(s) occurred";
             }
