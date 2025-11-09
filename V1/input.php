@@ -14,6 +14,7 @@
 </head>
 <body>
     <form action="logic.php" method="POST" novalidate autocomplete="off">
+        <input type="hidden" name="action" value="add_task">
         <label for="description">Task: </label>
         <input type="text" name="description" id="">
         <label for="priority">Priority: </label>
@@ -45,7 +46,9 @@
         $e = urldecode($_GET['e']);
         echo $e;
     }
-    
+   
+echo "<form action='logic.php' method='POST'>";
+echo "<input type='hidden' name='action' value='update_tasks'>";
     include_once 'db_conn.php';
     
     $sql = "SELECT * FROM tasks";
@@ -81,6 +84,8 @@
     
     $conn->close();
 
+echo "<button type='submit'>Save</button>";
+echo "</form>";
     ?>
     <a href="ChangeStatus.php">Edit</a>
 </body>

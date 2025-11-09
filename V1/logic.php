@@ -69,17 +69,44 @@
         }
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $descri = $_POST['description'];
-        $statu = $_POST['status'];
-        $prio = $_POST['priority'];
-        $cat = $_POST['category'];
-        $task = new Tasks($descri, $statu, $prio, $cat);
+     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $action = $_POST['action'] ?? '';
         
-        $ech = $task->NewTask($descri, $statu, $prio, $cat);
-        $data = urlencode("$ech" . " ");
-        sleep(4);
-        header("location: input.php?e=" . $data);
-        exit();
+        if ($action === 'add_task') {
+            $descri = $_POST['description'];
+            $statu = $_POST['status'];
+            $prio = $_POST['priority'];
+            $cat = $_POST['category'];
+            $task = new Tasks($descri, $statu, $prio, $cat);
+            
+            $ech = $task->NewTask($descri, $statu, $prio, $cat);
+            $data = urlencode($ech);
+            header("location: input.php?e=" . $data);
+            exit();
+        } elseif ($action === 'update_tasks') {
+            // Handle task updates
+            // Process the arrays
+            header("location: input.php?e=" . urlencode("Tasks updated"));
+            exit();
+        }
     }
+
+    /*if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['description'])) {
+            $descri = $_POST['description'];
+            $statu = $_POST['status'];
+            $prio = $_POST['priority'];
+            $cat = $_POST['category'];
+            $task = new Tasks($descri, $statu, $prio, $cat);
+            
+            $ech = $task->NewTask($descri, $statu, $prio, $cat);
+            $data = urlencode($ech);
+            sleep(4);
+            header("location: input.php?e=" . $data);
+            exit();
+        } elseif (isset($_POST['status']) && is_array($_POST['status'])) {
+            header("location: input.php?e=" . urlencode("Tasks updated successfully"));
+            exit();
+        }
+    }*/
 ?>
