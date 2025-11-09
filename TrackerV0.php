@@ -1,97 +1,125 @@
 <?php
+$tasks = [];
+$progress = [];
+$nextId = 1;
 
-    $increment = 0;
-    $tasks = [];
-    $progress = [];
+const DATA_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Tasks.json';
 
-    function Authenticate($x){
-        if (isset($x) && !empty($x) || $x != ""){
-            return 1;
-        } else {return 0;}
-    }
-       
-    function AddTask(){
-        global $tasks;
-        global $progress;
-        global $increment;
-        $New_Task = readline("Enter a new Task: ");
-        if (isset($New_Task) && $New_Task != ""){
-            array_push($tasks, $New_Task);
-            array_push($progress, $increment);
-            if (determineProgress() == "Error"){
-                return "Error... Try Again";
-            } else{
-                return "Task Saved Successfully... " . printArray();
-            }
-        } else {return "Try Again";}
-    }
+function loadFromJson(): void {
+    global $tasks, $progress, $nextId;
+    if (!file_exists(DATA_FILE)) return;
+    $json = @file_get_contents(DATA_FILE);
+    if ($json === false || trim($json) === '') return;
+    $data = json_decode($json, true);
+    if (!is_array($data)) return;
+    $tasks    = $data['tasks']    ?? [];
+    $progress = $data['progress'] ?? [];
+    $nextId   = $data['nextId']   ?? 1;
+    migrateLegacyDataIfNeeded();
+}
 
-    //arraycount() no longer needed
-    function arraycount($array){
-        global $increment;
-        if ($array == []){
-            return 0;
-        } else if (count(array_keys($array)) >= 1){
-            $increment += 1;
-            return $increment;
-        }
-    }
+function migrateLegacyDataIfNeeded(): void {
+    global $tasks, $progress, $nextId;
+    if ($tasks === []) return;
+    $first = $tasks[array_key_first($tasks)];
+    $isLegacy = !is_array($first) || !array_key_exists('id', $first) || !array_key_exists('title', $first);
+    if (!$isLegacy) return;
 
-    function determineProgress(){
-        global $tasks;
-        global $progress;
-        if (count($tasks) == count($progress)){
-            foreach ($progress as $key => $value){
-                if ($progress[$key] == 0){
-                    return "In progress";
-                } else if ($progress[$key] == 1){
-                    return "Task Completed";
-                } else {return "Error";}
-            }
-        }
-    }
-    
-    function printArray(){
-        global $tasks;
-        global $progress;
-        if (count($tasks) == count($progress)) {
-            foreach ($tasks as $task) {$i = 1; return $i++ . ". Task " . $task . ": " . determineProgress() . " ";}
-        }
+    $newTasks = [];
+    $newProgress = [];
+    $maxId = max(0, (int)$nextId - 1);
+
+    foreach ($tasks as $i => $t) {
+        $title = is_array($t) ? ($t['title'] ?? (string)json_encode($t)) : (string)$t;
+        $id = ++$maxId;
+        $newTasks[] = ['id' => $id, 'title' => $title];
+        $newProgress[$id] = isset($progress[$i]) ? (int)$progress[$i] : 0;
     }
 
-    for ($i = 1; $i <= 2; $i++){
-        if (isset($tasks)){
-            if ($tasks == []){
-                echo AddTask();
-            }else if (count($tasks) >= 1){
-                $input1 = readline(" Would you like to review your tasks? y/n ");
-                if (isset($input1)){
-                    if ($input1 == "y" || $input1 == "n" || $input1 == "N" || $input1 == "Y"){
-                        if ($input1 == "y" || $input1 == "Y"){
-                            echo printArray($tasks);
-                            $choice = readline(" Which Task would you like to change status for? ");
-                                if (isset($choice) && ctype_digit($choice) ){
-                                    $choice -= 1;
-                                    $choice = (int)$choice;
-                                    // echo $choice;
-                                    if ($progress[$choice] == 0){
-                                        $progress[$choice] = 1; echo printArray();
-                                    } else if ($progress[$choice] == 1){
-                                        $progress[$choice] = 0; echo printArray();
-                                    } else{ echo "Error";}
-                                } else {
-                                    echo "Input a number";
-                                }
-                        } else if ($input1 == "n" || $input1 == "N"){
-                            echo "Thank you for your Time";
-                        }
-                    } else{
-                        echo "Retry";
-                    }
-                } else {
-                    echo "Retry";
-                }
-            }
-        }
+    $tasks = $newTasks;
+    $progress = $newProgress;
+    $nextId = $maxId + 1;
+    saveToJson();
+}
+
+function saveToJson(): void {
+    global $tasks, $progress, $nextId;
+    $payload = json_encode(
+        ['tasks'=>$tasks,'progress'=>$progress,'nextId'=>$nextId],
+        JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+    );
+    $tmp = DATA_FILE . '.tmp';
+    file_put_contents($tmp, $payload, LOCK_EX);
+    rename($tmp, DATA_FILE);
+}
+
+loadFromJson();
+
+function addTask(): void {
+    global $tasks, $progress, $nextId;
+    $name = readline("Enter task: ");
+    if ($name === '') { echo "Empty ignored\n"; return; }
+    $id = $nextId++;
+    $tasks[] = ['id'=>$id,'title'=>$name];
+    $progress[$id] = 0;
+    saveToJson();
+    echo "Added\n";
+}
+
+function listTasks(): void {
+    global $tasks, $progress;
+    if (!$tasks) { echo "No tasks\n"; return; }
+    foreach ($tasks as $i => $t) {
+        $id = $t['id'];
+        $title = $t['title'];
+        $status = ($progress[$id] ?? 0) ? 'Done' : 'In progress';
+        printf("[%d] #%d %s - %s\n", $i+1, $id, $title, $status);
     }
+}
+
+function toggleTask(): void {
+    global $tasks, $progress;
+    if (!$tasks) { echo "No tasks\n"; return; }
+    listTasks();
+    $num = readline("Select number to toggle: ");
+    if (!ctype_digit($num)) { echo "Invalid\n"; return; }
+    $idx = (int)$num - 1;
+    if (!isset($tasks[$idx])) { echo "Out of range\n"; return; }
+    $id = $tasks[$idx]['id'];
+    $progress[$id] = isset($progress[$id]) && $progress[$id] ? 0 : 1;
+    saveToJson();
+    echo "Toggled\n";
+}
+
+function deleteTask(): void {
+    global $tasks, $progress;
+    if (!$tasks) { echo "No tasks\n"; return; }
+    listTasks();
+    $num = readline("Select number to delete: ");
+    if (!ctype_digit($num)) { echo "Invalid\n"; return; }
+    $idx = (int)$num - 1;
+    if (!isset($tasks[$idx])) { echo "Out of range\n"; return; }
+    $id = $tasks[$idx]['id'];
+    unset($progress[$id]);
+    array_splice($tasks, $idx, 1);
+    saveToJson();
+    echo "Deleted\n";
+}
+
+function menu(): void {
+    echo "\n1 List\n2 Add\n3 Toggle\n4 Delete\n5 Quit\n";
+}
+
+while (true) {
+    menu();
+    $choice = readline("Choice: ");
+    switch ($choice) {
+        case '1': listTasks(); break;
+        case '2': addTask(); break;
+        case '3': toggleTask(); break;
+        case '4': deleteTask(); break;
+        case '5': echo "Bye\n"; exit;
+        default: echo "Retry\n";
+    }
+}
 ?>
