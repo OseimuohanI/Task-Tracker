@@ -3,10 +3,15 @@
         {
             "id": 1,
             "title": "Adente"
+        },
+        {
+            "id": 3,
+            "title": "Implement User functionality"
         }
     ],
     "progress": {
-        "1": 1
+        "1": 0,
+        "3": 0
     },
-    "nextId": 3
+    "nextId": 4
 }
