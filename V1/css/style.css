@@ -4,6 +4,7 @@
     --trans-fast: 0.25s;
     --trans-med: 0.4s;
     --easing: ease;
+    --page-gutter: 24px;
 }
 
 body.light-mode,
@@ -89,7 +90,8 @@ body.dark-mode nav form input[type="text"] {
 }
 
 table {
-    width: 100%;
+    width: calc(100% - (var(--page-gutter) * 2));
+    margin: 16px var(--page-gutter);
     border-collapse: collapse;
     font-family: 'Open Sans', sans-serif;
     overflow: hidden;
@@ -308,18 +310,65 @@ body.dark-mode table tbody tr:hover {
     background-color: rgba(255,255,255,0.08);
 }
 
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
+        padding: 8px;
+    }
+    
+    nav form {
+        flex-direction: column;
+        gap: 8px;
+        margin-right: 0;
+        margin-top: 40px;
+    }
+    
+    nav form label {
+        display: none;
+    }
+    
+    nav form input[type="text"],
+    nav form select,
+    nav form button {
+        width: 100%;
+        margin: 0;
+    }
+    
+    nav form input[type="text"] {
+        margin-right: 0;
+    }
+    
+    nav form select {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    nav form button {
+        margin-left: 0;
+    }
+    
+    #toggle-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+    }
+}
+
 @media (max-width: 600px) {
     table th:nth-child(6),
     table td:nth-child(6),
     table th:nth-child(7),
     table td:nth-child(7) {
         display: none;
-        /* opacity: 0;
-        width: 0;
-        padding: 0;
-        border: 0;
-        font-size: 0;
-        pointer-events: none;
-        transition: all var(--trans-med) var(--easing); */
     }
+    
+    :root {
+        --page-gutter: 12px;
+    }
+}
+
+@media (min-width: 900px) {
+    :root { --page-gutter: 40px; }
 }
