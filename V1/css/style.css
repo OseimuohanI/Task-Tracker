@@ -16,16 +16,16 @@ body.light-mode {
     background-color: #ffffff;
     color: #000000;
     --nav-bg: rgba(255, 255, 255, 0.7);
-    --table-shadow: 0 12px 28px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.10);
-    --table-shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.22), 0 4px 14px rgba(0, 0, 0, 0.14);
+    --table-shadow: 0 20px 60px rgba(0, 0, 0, 0.22), 0 6px 18px rgba(0, 0, 0, 0.16);
+    --table-shadow-hover: 0 28px 80px rgba(0, 0, 0, 0.30), 0 10px 24px rgba(0, 0, 0, 0.20);
 }
 
 body.dark-mode {
     background-color: #333333;
     color: #ffffff;
     --nav-bg: rgba(51, 51, 51, 0.7);
-    --table-shadow: 0 16px 32px rgba(0, 0, 0, 0.60), 0 2px 8px rgba(0, 0, 0, 0.40);
-    --table-shadow-hover: 0 22px 46px rgba(0, 0, 0, 0.70), 0 4px 14px rgba(0, 0, 0, 0.50);
+    --table-shadow: 0 24px 64px rgba(0, 0, 0, 0.75), 0 8px 22px rgba(0, 0, 0, 0.55);
+    --table-shadow-hover: 0 32px 96px rgba(0, 0, 0, 0.85), 0 12px 28px rgba(0, 0, 0, 0.60);
 }
 
 nav {
@@ -97,6 +97,10 @@ table {
     border: 1px solid #d3d3d3;
     border-radius: 22px;
     box-shadow: var(--table-shadow);
+}
+
+table:hover {
+    box-shadow: var(--table-shadow-hover);
 }
 
 th, td {
