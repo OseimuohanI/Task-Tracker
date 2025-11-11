@@ -213,44 +213,26 @@ body.dark-mode nav form select option {
 
 table select {
     text-align: center;
-    background-color: inherit;
+    background-color: transparent;
     color: inherit;
     border: none;
     padding: 5px;
     width: 100%;
     outline: none;
     font-family: 'Open Sans', sans-serif;
+    transition: background-color var(--trans-fast) var(--easing), color var(--trans-fast) var(--easing);
 }
-
-select.custom {
-  -webkit-appearance: none;
-  appearance: none;
-  background: linear-gradient(to right, rgba(0,0,0,0.06), rgba(0,0,0,0.04));
-  border: 1px solid #ccc;
-  padding: 6px 32px 6px 10px;
-  border-radius: 6px;
-  font-family: 'Open Sans', sans-serif;
-  position: relative;
-  background-color: inherit;
-  color: inherit;
+/* Hover sync: change select background with its row */
+body.light-mode table tbody tr:hover select {
+    background-color: #f0f4ff;
 }
-body.dark-mode select.custom {
-  border: 1px solid rgba(255,255,255,0.25);
-  background: linear-gradient(to right, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
+body.dark-mode table tbody tr:hover select {
+    background-color: rgba(255,255,255,0.08);
 }
-.select-wrap {
-  position: relative;
-  display: inline-block;
-}
-.select-wrap::after {
-  content: "▾";
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  font-size: 12px;
-  color: inherit;
+/* Optional focus style for accessibility */
+table select:focus {
+    box-shadow: 0 0 0 2px rgba(58,106,217,0.35);
+    border-radius: 4px;
 }
 
 body.light-mode table select {
