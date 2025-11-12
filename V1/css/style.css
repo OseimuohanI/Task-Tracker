@@ -538,7 +538,6 @@ body.dark-mode .flash {
     }
 }
 
-/* Show hamburger only on small screens */
 @media (max-width: 768px) {
     #menu-toggle {
         display: block;
@@ -557,7 +556,6 @@ body.dark-mode .flash {
     #menu-toggle.active { transform: rotate(90deg); }
 }
 
-/* Hide hamburger on wider screens */
 @media (min-width: 769px) {
     #menu-toggle { display: none; }
 }
