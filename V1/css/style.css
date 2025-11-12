@@ -57,6 +57,8 @@ nav form {
     margin-right: 50px;
     font-family: 'Open Sans', sans-serif;
     transition: color var(--trans-med) var(--easing);
+    width: 100%;
+    justify-content: center;
 }
 
 nav form input[type="text"],
@@ -66,7 +68,7 @@ table select,
 .button-container button {
     transition: background-color var(--trans-med) var(--easing),
                 color var(--trans-med) var(--easing),
-                box-shadow var(--trans-fast) var(--easing);
+                box-shadow var(--trans-fast) var (--easing);
 }
 
 nav form input[type="text"] {
@@ -89,35 +91,14 @@ body.dark-mode nav form input[type="text"] {
     color: #ffffff;
 }
 
-table {
-    width: calc(100% - (var(--page-gutter) * 2));
-    margin: 16px var(--page-gutter);
-    border-collapse: collapse;
-    font-family: 'Open Sans', sans-serif;
-    overflow: hidden;
-    transition: width var(--trans-med) var(--easing), box-shadow var(--trans-fast) var(--easing);
-    border: 1px solid #d3d3d3;
-    border-radius: 22px;
-    box-shadow: var(--table-shadow);
-}
-
-table:hover {
-    box-shadow: var(--table-shadow-hover);
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #9c0d0d;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: color var(--trans-med) var(--easing), background-color var(--trans-med) var(--easing);
-}
-
-button {
-    padding: 10px 15px;
-    font-family: 'Open Sans', sans-serif;
+nav form input[type="text"]::placeholder,
+nav form input[type="text"]::-webkit-input-placeholder,
+nav form input[type="text"]::-moz-placeholder,
+nav form input[type="text"]:-ms-input-placeholder,
+nav form input[type="text"]::-ms-input-placeholder {
+    color: #ffffff;
+    opacity: 0.9;
+    font-weight: 700;
 }
 
 nav form button {
@@ -134,12 +115,15 @@ nav form button:hover {
     box-shadow: 0 6px 12px rgba(0,0,0,0.35);
     transform: translateY(-0.5px);
 }
+
 body.light-mode nav form button:hover {
     background-color: rgba(0,0,0,0.06);
 }
+
 body.dark-mode nav form button:hover {
     background-color: rgba(255,255,255,0.12);
 }
+
 nav form button:active {
     transform: translateY(0);
     box-shadow: 0 3px 6px rgba(0,0,0,0.25);
@@ -157,11 +141,6 @@ nav form select {
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     border-radius: 3px;
     font-family: 'Open Sans', sans-serif;
-}
-
-nav form {
-    width: 100%;
-    justify-content: center;
 }
 
 body.light-mode nav form select {
@@ -189,6 +168,18 @@ body.dark-mode nav form select option {
     color: #ffffff;
 }
 
+nav::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -18px;
+    height: 18px;
+    background: linear-gradient(to bottom, var(--nav-bg) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 100;
+}
+
 #toggle-button {
     position: absolute;
     top: 10px;
@@ -199,6 +190,37 @@ body.dark-mode nav form select option {
     font-size: 24px;
     color: inherit;
     transition: color var(--trans-med) var(--easing);
+}
+
+table {
+    width: calc(100% - (var(--page-gutter) * 2));
+    margin: 16px var(--page-gutter);
+    border-collapse: collapse;
+    font-family: 'Open Sans', sans-serif;
+    overflow: hidden;
+    transition: width var(--trans-med) var(--easing), box-shadow var(--trans-fast) var (--easing);
+    border: 1px solid #d3d3d3;
+    border-radius: 22px;
+    box-shadow: var(--table-shadow);
+}
+
+table:hover {
+    box-shadow: var(--table-shadow-hover);
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color var(--trans-med) var(--easing), background-color var(--trans-med) var (--easing);
+}
+
+button {
+    padding: 10px 15px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .button-container {
@@ -224,18 +246,20 @@ table select {
     border: none;
     padding: 5px;
     width: 100%;
+    min-width: 70px;
     outline: none;
     font-family: 'Open Sans', sans-serif;
-    transition: background-color var(--trans-fast) var(--easing), color var(--trans-fast) var(--easing);
+    transition: background-color var(--trans-fast) var (--easing), color var(--trans-fast) var (--easing);
 }
-/* Hover sync: change select background with its row */
+
 body.light-mode table tbody tr:hover select {
     background-color: #f0f4ff;
 }
+
 body.dark-mode table tbody tr:hover select {
     background-color: rgba(255,255,255,0.08);
 }
-/* Optional focus style for accessibility */
+
 table select:focus {
     box-shadow: 0 0 0 2px rgba(58,106,217,0.35);
     border-radius: 4px;
@@ -266,16 +290,16 @@ body.dark-mode table select option {
     color: #ffffff;
 }
 
-nav::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -18px;
-    height: 18px;
-    background: linear-gradient(to bottom, var(--nav-bg) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 100;
+table tbody tr {
+    transition: background-color var(--trans-fast) var (--easing);
+}
+
+body.light-mode table tbody tr:hover {
+    background-color: #f0f4ff;
+}
+
+body.dark-mode table tbody tr:hover {
+    background-color: rgba(255,255,255,0.08);
 }
 
 .flash {
@@ -284,7 +308,7 @@ nav::after {
     border-radius: 6px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    transition: background-color var(--trans-med) var(--easing), color var(--trans-med) var(--easing), border-color var(--trans-med) var(--easing);
+    transition: background-color var(--trans-med) var (--easing), color var (--trans-med) var (--easing), border-color var (--trans-med) var (--easing);
     max-width: 900px;
 }
 
@@ -300,59 +324,168 @@ body.dark-mode .flash {
     border: 1px solid rgba(255,255,255,0.15);
 }
 
-table tbody tr {
-    transition: background-color var(--trans-fast) var(--easing);
+.flash.toast {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    max-width: 300px;
+    padding: 12px 40px 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: flash-in 0.4s ease;
+    z-index: 500;
 }
-body.light-mode table tbody tr:hover {
-    background-color: #f0f4ff;
+
+.flash.toast.hide {
+    animation: flash-out 0.35s ease forwards;
 }
-body.dark-mode table tbody tr:hover {
-    background-color: rgba(255,255,255,0.08);
+
+.flash-close {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    color: inherit;
+    padding: 4px;
+}
+
+.flash-close:hover {
+    opacity: 0.7;
+}
+
+@keyframes flash-in {
+    from { opacity:0; transform: translateY(-10px); }
+    to   { opacity:1; transform: translateY(0); }
+}
+
+@keyframes flash-out {
+    to { opacity:0; transform: translateY(-8px); pointer-events:none; }
 }
 
 @media (max-width: 768px) {
     nav {
+        position: sticky;
+        top: 0;
         flex-direction: column;
         align-items: stretch;
         height: auto;
         padding: 8px;
+        padding-top: 56px;
+        margin-bottom: 5px;
+        z-index: 200;
+        background-color: var(--nav-bg);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        overflow: hidden;
     }
-    
+
+    #menu-toggle {
+        display: block;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: inherit;
+        padding: 10px;
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        transition: transform var(--trans-fast) var(--easing);
+        z-index: 210;
+    }
+
+    #menu-toggle:active {
+        transform: scale(0.9);
+    }
+
+    #menu-toggle.active {
+        transform: rotate(90deg);
+    }
+
     nav form {
+        display: flex;
+        position: relative;
+        z-index: 205;
         flex-direction: column;
         gap: 8px;
-        margin-right: 0;
-        margin-top: 40px;
+        margin: 0;
+        background-color: var(--nav-bg);
+        padding: 0 12px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transform-origin: top;
+        transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.4s ease,
+                    padding 0.5s ease,
+                    margin 0.5s ease;
     }
-    
+
+    nav form.show {
+        max-height: 600px;
+        opacity: 1;
+        padding: 12px;
+        margin: 10px 0 20px;
+    }
+
     nav form label {
         display: none;
     }
-    
+
     nav form input[type="text"],
     nav form select,
     nav form button {
         width: 100%;
-        margin: 0;
+        margin: 0 !important;
+        transform: translateY(-10px);
+        opacity: 0;
+        transition: transform 0.3s ease calc(var(--delay) * 0.08s),
+                    opacity 0.3s ease calc(var(--delay) * 0.08s);
     }
-    
-    nav form input[type="text"] {
-        margin-right: 0;
+
+    nav form.show input[type="text"],
+    nav form.show select,
+    nav form.show button {
+        transform: translateY(0);
+        opacity: 1;
     }
-    
-    nav form select {
-        margin-left: 0;
-        margin-right: 0;
-    }
-    
-    nav form button {
-        margin-left: 0;
-    }
-    
+
+    nav form input[type="text"] { --delay: 1; }
+    nav form select:nth-of-type(1) { --delay: 2; }
+    nav form select:nth-of-type(2) { --delay: 3; }
+    nav form select:nth-of-type(3) { --delay: 4; }
+    nav form button { --delay: 5; }
+
     #toggle-button {
         position: absolute;
         top: 8px;
         right: 8px;
+    }
+
+    table {
+        margin-top: 7px;
+    }
+
+    nav form input[type="text"] {
+        text-align: center;
+    }
+
+    nav form input[type="text"]::placeholder,
+    nav form input[type="text"]::-webkit-input-placeholder,
+    nav form input[type="text"]::-moz-placeholder,
+    nav form input[type="text"]:-ms-input-placeholder,
+    nav form input[type="text"]::-ms-input-placeholder {
+        color: #ffffff;
+        opacity: 0.9;
+        text-align: center;
+        font-weight: 700;
     }
 }
 
@@ -361,14 +494,70 @@ body.dark-mode table tbody tr:hover {
     table td:nth-child(6),
     table th:nth-child(7),
     table td:nth-child(7) {
-        display: none;
+        display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
     }
-    
+
+    table {
+        table-layout: auto;
+    }
+
+    table td:nth-child(1) {
+        width: 40px;
+    }
+
+    table td:nth-child(2) {
+        max-width: 100px;
+        word-wrap: break-word;
+    }
+
+    table td:nth-child(3),
+    table td:nth-child(4),
+    table td:nth-child(5) {
+        width: auto;
+    }
+
     :root {
         --page-gutter: 12px;
     }
 }
 
+@media (min-width: 769px) {
+    #menu-toggle {
+        display: none;
+    }
+}
+
 @media (min-width: 900px) {
-    :root { --page-gutter: 40px; }
+    :root {
+        --page-gutter: 40px;
+    }
+}
+
+/* Show hamburger only on small screens */
+@media (max-width: 768px) {
+    #menu-toggle {
+        display: block;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: inherit;
+        padding: 10px;
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        transition: transform var(--trans-fast) var(--easing);
+        z-index: 210;
+    }
+    #menu-toggle.active { transform: rotate(90deg); }
+}
+
+/* Hide hamburger on wider screens */
+@media (min-width: 769px) {
+    #menu-toggle { display: none; }
 }

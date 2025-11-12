@@ -1,7 +1,5 @@
 <?php
-
     $e = "";
-
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +20,14 @@
             icon.classList.toggle('fa-moon');
             localStorage.setItem('mode', body.classList.contains('dark-mode') ? 'dark' : 'light');
         }
+        
+        function toggleMenu() {
+            const form = document.querySelector('nav form');
+            const menuBtn = document.getElementById('menu-toggle');
+            const willShow = !form.classList.contains('show');
+            form.classList.toggle('show', willShow);
+            menuBtn.classList.toggle('active', willShow);
+        }
 
         window.onload = function() {
             const mode = localStorage.getItem('mode');
@@ -33,32 +39,52 @@
                 document.body.classList.add('light-mode');
                 icon.classList.add('fa-moon');
             }
+
+            const navForm = document.querySelector('nav form');
+            const menuBtn = document.getElementById('menu-toggle');
+
+            window.addEventListener('scroll', () => {
+                if (window.innerWidth <= 768 && navForm.classList.contains('show')) {
+                    navForm.classList.remove('show');
+                    menuBtn.classList.remove('active');
+                }
+            }, { passive: true });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navForm.classList.remove('show');
+                    menuBtn.classList.remove('active');
+                }
+            });
         }
     </script>
 </head>
 <body>
     <nav>
+        <button id="menu-toggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
         <button id="toggle-button" onclick="toggleMode()">
             <i id="mode-icon" class="fas"></i>
         </button>
         <form action="/V1/logic.php" method="POST" novalidate autocomplete="off">
             <input type="hidden" name="action" value="add_task">
             <label for="description">Task: </label>
-            <input type="text" name="description" id="">
+            <input type="text" name="description" placeholder="Task">
             <label for="priority">Priority: </label>
-            <select name="priority" id="">
+            <select name="priority">
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
             </select>
             <label for="Status">Status: </label>
-            <select name="status" id="" title="Status">
+            <select name="status" title="Status">
                 <option value="to-do">To_Do</option>
                 <option value="in-progress">In-Progress</option>
                 <option value="done">Done</option>
             </select>
             <label for="category">Category: </label>
-            <select name="category" id="">
+            <select name="category">
                 <option value="work">Work</option>
                 <option value="personal">Personal</option>
                 <option value="other">Other</option>
@@ -69,11 +95,14 @@
     <br>
 
     <?php
-
     include_once 'logic.php';
-    if (isset($_GET['e']) && !empty($_GET['e'])){
+
+    if (isset($_GET['e']) && !empty($_GET['e'])) {
         $e = urldecode($_GET['e']);
-        echo "<div class='flash'>".htmlspecialchars($e, ENT_QUOTES, 'UTF-8')."</div>";
+        echo "<div class='flash toast' role='alert' aria-live='assertive'>
+                <span class='flash-msg'>" . htmlspecialchars($e, ENT_QUOTES, 'UTF-8') . "</span>
+                <button type='button' class='flash-close' onclick='this.parentElement.classList.add(\"hide\")' aria-label='Close'>&times;</button>
+              </div>";
     }
    
     echo "<form action='logic.php' method='POST'>";
@@ -85,7 +114,7 @@
     
     if ($result->num_rows > 0) {
         echo "<table border='1'><tr><th>ID</th><th>Description</th><th>Priority</th><th>Status</th><th>Category</th><th>Created At</th><th>Updated At</th></tr>";
-        while($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
             echo "<tr>";
             echo "<input type='hidden' name='task_id[]' value='" . $row["id"] . "'>";
             echo "<td>" . $row["id"] . "</td><td>" . $row["description"] . "</td><td>
@@ -118,5 +147,13 @@
     echo "<div class='button-container'><button type='submit'>Save</button></div>";
     echo "</form>";
     ?>
+    <script>
+        window.addEventListener('load', () => {
+            const DISPLAY_MS = 5600;
+            document.querySelectorAll('.toast').forEach(t => {
+                setTimeout(() => t.classList.add('hide'), DISPLAY_MS);
+            });
+        });
+    </script>
 </body>
 </html>
