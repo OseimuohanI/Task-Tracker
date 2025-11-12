@@ -67,7 +67,7 @@ nav form button,
 table select,
 .button-container button {
     transition: background-color var(--trans-med) var(--easing),
-                color var(--trans-med) var(--easing),
+                color var(--trans-med) var (--easing),
                 box-shadow var(--trans-fast) var (--easing);
 }
 
@@ -185,6 +185,18 @@ nav::after {
     top: 10px;
     right: 10px;
     background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: inherit;
+    transition: color var(--trans-med) var(--easing);
+}
+
+#menu-toggle {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    background: transparent;
     border: none;
     cursor: pointer;
     font-size: 24px;

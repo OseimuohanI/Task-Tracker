@@ -25,8 +25,27 @@
             const form = document.querySelector('nav form');
             const menuBtn = document.getElementById('menu-toggle');
             const willShow = !form.classList.contains('show');
-            form.classList.toggle('show', willShow);
-            menuBtn.classList.toggle('active', willShow);
+            
+            if (willShow) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                const checkScroll = setInterval(() => {
+                    if (window.scrollY === 0) {
+                        clearInterval(checkScroll);
+                        form.classList.add('show');
+                        menuBtn.classList.add('active');
+                    }
+                }, 50);
+                
+                setTimeout(() => {
+                    clearInterval(checkScroll);
+                    form.classList.add('show');
+                    menuBtn.classList.add('active');
+                }, 500);
+            } else {
+                form.classList.remove('show');
+                menuBtn.classList.remove('active');
+            }
         }
 
         window.onload = function() {
