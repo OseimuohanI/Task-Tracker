@@ -86,7 +86,7 @@
         <button id="toggle-button" onclick="toggleMode()">
             <i id="mode-icon" class="fas"></i>
         </button>
-        <form action="/V1/logic.php" method="POST" novalidate autocomplete="off">
+        <form action='logic.php' method="POST" novalidate autocomplete="off">
             <input type="hidden" name="action" value="add_task">
             <label for="description">Task: </label>
             <input type="text" name="description" placeholder="Task">
