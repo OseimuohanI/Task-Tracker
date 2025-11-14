@@ -59,6 +59,17 @@ nav form {
     transition: color var(--trans-med) var(--easing);
     width: 100%;
     justify-content: center;
+    border-radius: 10px;
+    box-shadow: 50px;
+}
+
+nav form input[type="text"] {
+    width: 15vw;           
+    min-width: 80px;       
+    max-width: 140px;      
+    padding: 4px 6px;
+    font-size: 14px;
+    line-height: 1.2;
 }
 
 nav form input[type="text"],
@@ -102,7 +113,8 @@ nav form input[type="text"]::-ms-input-placeholder {
 }
 
 nav form button {
-    margin-left: 20px;
+    margin-left: 15px;
+    margin-right: 20px;
     background: transparent;
     border: none;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
@@ -502,6 +514,11 @@ body.dark-mode .flash {
 }
 
 @media (max-width: 600px) {
+    nav form input[type="text"] {
+        width: 80vw;     
+        max-width: 100%;
+    }
+
     table th:nth-child(6),
     table td:nth-child(6),
     table th:nth-child(7),

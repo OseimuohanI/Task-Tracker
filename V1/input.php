@@ -132,29 +132,36 @@
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) {
-        echo "<table border='1'><tr><th>ID</th><th>Description</th><th>Priority</th><th>Status</th><th>Category</th><th>Created At</th><th>Updated At</th></tr>";
+        echo "<table border='1'>";
+        echo "<tr><th>ID</th><th>Description</th><th>Priority</th><th>Status</th><th>Category</th><th>Created At</th><th>Updated At</th></tr>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<input type='hidden' name='task_id[]' value='" . $row["id"] . "'>";
-            echo "<td>" . $row["id"] . "</td><td>" . $row["description"] . "</td><td>
-            <select name='priority[]' title='Priority'>
-            <option value='low'" . ($row["priority"] == 'low' ? ' selected' : '') . ">Low</option>
-            <option value='medium'" . ($row["priority"] == 'medium' ? ' selected' : '') . ">Medium</option>
-            <option value='high'" . ($row["priority"] == 'high' ? ' selected' : '') . ">High</option>
-            </select>
-            </td><td>            
-            <select name='status[]' title='Status'>
-                <option value='to-do'" . ($row["status"] == 'to-do' ? ' selected' : '') . ">To_Do</option>
-                <option value='in-progress'" . ($row["status"] == 'in-progress' ? ' selected' : '') . ">In-Progress</option>
-                <option value='done'" . ($row["status"] == 'done' ? ' selected' : '') . ">Done</option>
-            </select>
-            </td><td>
-            <select name='category[]' title='Category'>
-                <option value='other'" . ($row["category"] == 'other' ? ' selected' : '') . ">Other</option>
-                <option value='work'" . ($row["category"] == 'work' ? ' selected' : '') . ">Work</option>
-                <option value='personal'" . ($row["category"] == 'personal' ? ' selected' : '') . ">Personal</option>
-            </select>
-            </td><td>" . $row["createdAt"] . "</td><td>" . $row["updatedAt"] . "</td></tr>";
+            echo "<td><input type='hidden' name='task_id[]' value='" . (int)$row["id"] . "'>" . (int)$row["id"] . "</td>";
+            echo "<td>" . htmlspecialchars($row["description"], ENT_QUOTES, 'UTF-8') . "</td>";
+            echo "<td>
+                    <select name='priority[]' title='Priority'>
+                        <option value='low'" . ($row["priority"] === 'low' ? ' selected' : '') . ">Low</option>
+                        <option value='medium'" . ($row["priority"] === 'medium' ? ' selected' : '') . ">Medium</option>
+                        <option value='high'" . ($row["priority"] === 'high' ? ' selected' : '') . ">High</option>
+                    </select>
+                  </td>";
+            echo "<td>
+                    <select name='status[]' title='Status'>
+                        <option value='to-do'" . ($row["status"] === 'to-do' ? ' selected' : '') . ">To_Do</option>
+                        <option value='in-progress'" . ($row["status"] === 'in-progress' ? ' selected' : '') . ">In-Progress</option>
+                        <option value='done'" . ($row["status"] === 'done' ? ' selected' : '') . ">Done</option>
+                    </select>
+                  </td>";
+            echo "<td>
+                    <select name='category[]' title='Category'>
+                        <option value='work'" . ($row["category"] === 'work' ? ' selected' : '') . ">Work</option>
+                        <option value='personal'" . ($row["category"] === 'personal' ? ' selected' : '') . ">Personal</option>
+                        <option value='other'" . ($row["category"] === 'other' ? ' selected' : '') . ">Other</option>
+                    </select>
+                  </td>";
+            echo "<td>" . htmlspecialchars($row["createdAt"], ENT_QUOTES, 'UTF-8') . "</td>";
+            echo "<td>" . htmlspecialchars($row["updatedAt"], ENT_QUOTES, 'UTF-8') . "</td>";
+            echo "</tr>";
         }
         echo "</table>";
     } else {
